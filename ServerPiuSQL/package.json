@@ -1,0 +1,19 @@
+{
+  "name": "serversql",
+  "version": "1.0.0",
+  "description": "connesione sql a server",
+  "main": "app.js",
+  "scripts": {
+    "test": "start"
+  },
+  "author": "Alen Bicanic",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mssql": "^6.2.0",
+    "nodemon": "^2.0.3",
+    "proj4": "^2.6.1",
+    "wellknown": "^0.5.0"
+  }
+}
