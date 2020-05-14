@@ -13,3 +13,5 @@ export class GeoFeatureCollection
     public type: string;
     public features : GeoJson[];
 }
+
+
