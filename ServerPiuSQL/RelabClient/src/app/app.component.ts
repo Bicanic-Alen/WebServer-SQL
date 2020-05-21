@@ -38,12 +38,18 @@ export class AppComponent implements OnInit {
   //Una volta che la pagina web è caricata, viene lanciato il metodo ngOnInit scarico i    dati
   //dal server
   ngOnInit() {
-    this.obsGeoData = this.http.get<GeoFeatureCollection>("https://3000-e4368ba0-cd38-4ed5-b860-a0b9b2c61bde.ws-eu01.gitpod.io/");
+    this.obsGeoData = this.http.get<GeoFeatureCollection>("https://3000-b7d32719-0205-4b43-ac95-19cd24eb666a.ws-eu01.gitpod.io/");
     this.obsGeoData.subscribe(this.prepareData);
-    this.obsCiVett = this.http.get<Ci_vettore[]>("https://3000-e4368ba0-cd38-4ed5-b860-a0b9b2c61bde.ws-eu01.gitpod.io/ci_vettore/90");
-    this.obsCiVett.subscribe(this.prepareCiVettData);
   }
 
+  cambiaFoglio(foglio) : boolean
+  {
+    let val = foglio.value; //assiocio il valore del foglio preso in input
+    this.obsCiVett = this.http.get<Ci_vettore[]>(`https://3000-b7d32719-0205-4b43-ac95-19cd24eb666a.ws-eu01.gitpod.io/ci_vettore/${val}`);  //inserisco il valore nel url
+    this.obsCiVett.subscribe(this.prepareCiVettData); //scarica i dati dal server
+    console.log(val);
+    return false;
+  }
 
 
   styleFunc = (feature) => {
@@ -56,12 +62,21 @@ export class AppComponent implements OnInit {
 
    prepareCiVettData = (data: Ci_vettore[]) =>
   {
-    console.log(data); //Verifica di ricevere i vettori energetici
+    let latTot = 0; //Uso queste due variabili per calcolare latitudine e longitudine media
+    let lngTot = 0; //E centrare la mappa
+
+    console.log(data);
     this.markers = [];
-    for (const iterator of data) { //Per ogni oggetto del vettore creoa un Marker
+
+    for (const iterator of data) {
       let m = new Marker(iterator.WGS84_X,iterator.WGS84_Y,iterator.CI_VETTORE);
+      latTot += m.lat; //Sommo tutte le latitutidini e longitudini
+      lngTot += m.lng;
       this.markers.push(m);
     }
+    this.lng = lngTot/data.length; //Commenta qui
+    this.lat = latTot/data.length;
+    this.zoom = 16;
   }
 
 }

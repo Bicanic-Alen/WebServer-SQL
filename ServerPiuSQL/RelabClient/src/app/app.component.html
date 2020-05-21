@@ -8,4 +8,12 @@
 </agm-marker>
 </agm-map>
 
-
+<form>
+  <div>
+    <input name="title" #foglio>
+    <label for="title">Seleziona foglio</label>
+  </div>
+  <button (click)="cambiaFoglio(foglio)">
+    enter
+  </button>
+</form>
