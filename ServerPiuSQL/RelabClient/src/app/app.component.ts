@@ -78,7 +78,7 @@ export class AppComponent implements OnInit {
       lngTot += m.lng;
       this.markers.push(m);
     }
-    this.lng = lngTot/data.length; //Commenta qui
+    this.lng = lngTot/data.length; //si fa la media dei dai per centrare la mappa.
     this.lat = latTot/data.length;
     this.zoom = 16;
   }
