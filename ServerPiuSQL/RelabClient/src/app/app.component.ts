@@ -28,6 +28,7 @@ export class AppComponent implements OnInit {
   circleLng: number = 0;
   maxRadius: number = 400; //Voglio evitare raggi troppo grossi
   radius : number = this.maxRadius; //Memorizzo il raggio del cerchio
+  serverUrl : string = "https://3000-b09b594b-dc98-42a5-bdb2-30ec4cc13939.ws-eu01.gitpod.io";
 
   constructor(public http: HttpClient) {
   //Facciamo iniettare il modulo HttpClient dal framework Angular (ricordati di importare la libreria)
@@ -42,14 +43,13 @@ export class AppComponent implements OnInit {
   //Una volta che la pagina web è caricata, viene lanciato il metodo ngOnInit scarico i    dati
   //dal server
   ngOnInit() {
-    this.obsGeoData = this.http.get<GeoFeatureCollection>("https://3000-ff758867-5de8-4e37-8983-83c96063db97.ws-eu01.gitpod.io/");
-    this.obsGeoData.subscribe(this.prepareData);
+
   }
 
   cambiaFoglio(foglio) : boolean
   {
     let val = foglio.value; //assiocio il valore del foglio preso in input
-    this.obsCiVett = this.http.get<Ci_vettore[]>(`https://3000-ff758867-5de8-4e37-8983-83c96063db97.ws-eu01.gitpod.io/ci_vettore/${val}`);  //inserisco il valore nel url
+    this.obsCiVett = this.http.get<Ci_vettore[]>(`${this.serverUrl}/ci_vettore/${val}`);  //inserisco il valore nel url
     this.obsCiVett.subscribe(this.prepareCiVettData); //scarica i dati dal server
     console.log(val);
     return false;
@@ -57,6 +57,7 @@ export class AppComponent implements OnInit {
 
 
   styleFunc = (feature) => {
+    console.log(feature)
     return ({
       clickable: false,
       fillColor: this.fillColor,
@@ -104,25 +105,41 @@ circleDoubleClicked(circleCenter)
   {
     console.log(circleCenter); //Voglio ottenere solo i valori entro questo cerchio
     console.log(this.radius);
-
-    this.circleLat = circleCenter.coords.lat; //Aggiorno le coordinate del cerchio
-    this.circleLng = circleCenter.coords.lng; //Aggiorno le coordinate del cerchio
-
-    //Non conosco ancora le prestazioni del DB, non voglio fare ricerche troppo onerose
+    this.circleLat = circleCenter.coords.lat;
+    this.circleLng = circleCenter.coords.lng;
     if(this.radius > this.maxRadius)
     {
       console.log("area selezionata troppo vasta sarà reimpostata a maxRadius");
-       this.radius = this.maxRadius;
+      this.radius = this.maxRadius;
     }
-    console.log ("raggio in gradi " + (this.radius * 0.00001)/1.1132)
+
     let raggioInGradi = (this.radius * 0.00001)/1.1132;
-    //Voglio spedire al server una richiesta che mi ritorni tutte le abitazioni all'interno del cerchio
-    this.obsCiVett = this.http.get<Ci_vettore[]>(`https://3000-ff758867-5de8-4e37-8983-83c96063db97.ws-eu01.gitpod.io/ci_geovettore/
+
+
+    const urlciVett = `${this.serverUrl}/ci_geovettore/
     ${this.circleLat}/
     ${this.circleLng}/
-    ${raggioInGradi}`);
+    ${raggioInGradi}`;
+
+    const urlGeoGeom = `${this.serverUrl}/geogeom/
+    ${this.circleLat}/
+    ${this.circleLng}/
+    ${raggioInGradi}`;
+    //Posso riusare lo stesso observable e lo stesso metodo di gestione del metodo cambiaFoglio
+    //poichè riceverò lo stesso tipo di dati
+    //Divido l'url andando a capo per questioni di leggibilità non perchè sia necessario
+    this.obsCiVett = this.http.get<Ci_vettore[]>(urlciVett);
     this.obsCiVett.subscribe(this.prepareCiVettData);
+
+    this.obsGeoData = this.http.get<GeoFeatureCollection>(urlGeoGeom);
+    this.obsGeoData.subscribe(this.prepareData);
+
+    //console.log ("raggio in gradi " + (this.radius * 0.00001)/1.1132)
+
+    //Voglio spedire al server una richiesta che mi ritorni tutte le abitazioni all'interno del cerchio
+
   }
+
 
 
 }
