@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
   circleLng: number = 0;
   maxRadius: number = 400; //Voglio evitare raggi troppo grossi
   radius : number = this.maxRadius; //Memorizzo il raggio del cerchio
-  serverUrl : string = "https://3000-b09b594b-dc98-42a5-bdb2-30ec4cc13939.ws-eu01.gitpod.io";
+  serverUrl : string = "https://3000-f6bb6456-6de1-4008-a7c6-0b6ba50e0521.ws-eu01.gitpod.io";
 
   constructor(public http: HttpClient) {
   //Facciamo iniettare il modulo HttpClient dal framework Angular (ricordati di importare la libreria)
@@ -55,15 +55,33 @@ export class AppComponent implements OnInit {
     return false;
   }
 
+  avgColorMap = (media) =>
+  {
+    if(media <= 36) return "#00FF00";
+    if(36 < media && media <= 40) return "#33ff00";
+    if(40 < media && media <= 58) return "#66ff00";
+    if(58 < media && media <= 70) return "#99ff00";
+    if(70 < media && media <= 84) return "#ccff00";
+    if(84 < media && media <= 100) return "#FFFF00";
+    if(100 < media && media <= 116) return "#FFCC00";
+    if(116 < media && media <= 1032) return "#ff9900";
+    if(1032 < media && media <= 1068) return "#ff6600";
+    if(1068 < media && media <= 1948) return "#FF3300";
+    if(1948 < media && media <= 3780) return "#FF0000";
+    return "#FF0000"
+  }
+
+
 
   styleFunc = (feature) => {
-    console.log(feature)
     return ({
       clickable: false,
-      fillColor: this.fillColor,
-      strokeWeight: 1
+      fillColor: this.avgColorMap(feature.i.media),
+      strokeWeight: 1,
+      fillOpacity : 1  //Fill opacity 1 = opaco (i numeri tra 0 e 1 sono le gradazioni di trasparenza)
     });
   }
+
 
    prepareCiVettData = (data: Ci_vettore[]) =>
   {
