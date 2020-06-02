@@ -93,6 +93,8 @@ module.exports = class SqlUtils {
         sqlRequest.query(q, (err, result) => { SqlUtils.sendQueryResults(err, result, res) });
     }
 
+    
+
 
 
 

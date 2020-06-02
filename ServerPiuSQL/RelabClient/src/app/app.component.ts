@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
   circleLng: number = 0;
   maxRadius: number = 400; //Voglio evitare raggi troppo grossi
   radius : number = this.maxRadius; //Memorizzo il raggio del cerchio
-  serverUrl : string = "https://3000-f6bb6456-6de1-4008-a7c6-0b6ba50e0521.ws-eu01.gitpod.io";
+  serverUrl : string = "https://3000-f9804fb2-68c9-47c2-8869-ab017151d294.ws-eu01.gitpod.io";
 
   constructor(public http: HttpClient) {
   //Facciamo iniettare il modulo HttpClient dal framework Angular (ricordati di importare la libreria)
@@ -55,6 +55,18 @@ export class AppComponent implements OnInit {
     return false;
   }
 
+
+  styleFunc = (feature) => {
+    console.log(feature);
+
+    return ({
+      clickable: false,
+      fillColor: this.avgColorMap(feature.j.media),
+      strokeWeight: 1,
+      fillOpacity : 1  //Fill opacity 1 = opaco (i numeri tra 0 e 1 sono le gradazioni di trasparenza)
+    });
+  }
+
   avgColorMap = (media) =>
   {
     if(media <= 36) return "#00FF00";
@@ -72,15 +84,6 @@ export class AppComponent implements OnInit {
   }
 
 
-
-  styleFunc = (feature) => {
-    return ({
-      clickable: false,
-      fillColor: this.avgColorMap(feature.i.media),
-      strokeWeight: 1,
-      fillOpacity : 1  //Fill opacity 1 = opaco (i numeri tra 0 e 1 sono le gradazioni di trasparenza)
-    });
-  }
 
 
    prepareCiVettData = (data: Ci_vettore[]) =>
