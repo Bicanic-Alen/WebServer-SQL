@@ -32,6 +32,11 @@ app.get('/geogeom/:lng/:lat/:r', function (req, res) {
     sqlUtils.connect(req, res, sqlUtils.geoGeomRequest);
  });
 
+ app.get('/selectALL', function (req, res) {
+     //richiamo il metodo che ottiene l'elenco dei vettori energetici
+     console.log(req.params);
+    sqlUtils.connect(req, res, sqlUtils.selALL);
+ });
 
 
 

@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
   circleLng: number = 0;
   maxRadius: number = 400; //Voglio evitare raggi troppo grossi
   radius : number = this.maxRadius; //Memorizzo il raggio del cerchio
-  serverUrl : string = "https://3000-f9804fb2-68c9-47c2-8869-ab017151d294.ws-eu01.gitpod.io";
+  serverUrl : string = "https://3000-a1452344-33cc-4110-ae5e-bbeb976ab07f.ws-eu01.gitpod.io";
 
   constructor(public http: HttpClient) {
   //Facciamo iniettare il modulo HttpClient dal framework Angular (ricordati di importare la libreria)
@@ -53,6 +53,13 @@ export class AppComponent implements OnInit {
     this.obsCiVett.subscribe(this.prepareCiVettData); //scarica i dati dal server
     console.log(val);
     return false;
+  }
+
+  visualALL():boolean{
+    console.log("stato premuto visualALL")
+    this.obsGeoData = this.http.get<GeoFeatureCollection>(`${this.serverUrl}/selectALL`);
+    this.obsGeoData.subscribe(this.prepareData);
+    return false
   }
 
 
