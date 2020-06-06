@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
   circleLng: number = 0;
   maxRadius: number = 400; //Voglio evitare raggi troppo grossi
   radius : number = this.maxRadius; //Memorizzo il raggio del cerchio
-  serverUrl : string = "https://3000-a1452344-33cc-4110-ae5e-bbeb976ab07f.ws-eu01.gitpod.io";
+  serverUrl : string = "https://3000-e43b1e64-db37-4ac2-8bb9-67ae06de0c80.ws-eu01.gitpod.io";
 
   constructor(public http: HttpClient) {
   //Facciamo iniettare il modulo HttpClient dal framework Angular (ricordati di importare la libreria)

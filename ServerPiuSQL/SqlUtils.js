@@ -95,9 +95,9 @@ module.exports = class SqlUtils {
 
     static selALL(req, res){
         let sqlRequest = new sql.Request();  //sqlRequest: oggetto che serve a eseguire le query
-        let q = 'SELECT [WKT] FROM [Katmai].[dbo].[intMil4326WKT]';
+        let q = 'SELECT SUM(EP_H_ND) as somma, AVG(EP_H_ND) as media, [WKT] , SEZ FROM [Katmai].[dbo].[intMil4326WKT] WHERE EP_H_ND > 0 GROUP BY [WKT], SEZ';
         //eseguo la query e aspetto il risultato nella callback
-        sqlRequest.query(q, (err, result) => {SqlUtils.sendQueryResults(err,result,res)}); 
+        sqlRequest.query(q, (err, result) => { SqlUtils.sendQueryResults(err, result, res) }); 
     }
     
 
