@@ -1,4 +1,4 @@
-<h1>Angular Google Maps (AGM) Demo</h1>
+<h1 style="font-family:verdana">Angular Google Maps (AGM) Demo</h1>
 
 <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [zoomControl]="true"
 (mapClick)="mapClicked($event)"> <!--Aggiungi la gestione dell'evento click sulla mappa-->
@@ -26,11 +26,10 @@
 <form>
   <div>
     <input name="title" #foglio>
-    <label for="title">Seleziona foglio</label>
+    <label for="title" style="font-family:verdana">Seleziona foglio</label>
   </div>
-  <button (click)="cambiaFoglio(foglio)">
-    enter
-  </button>
-  <button (click)="visualALL( )">visualizza tutte le zone(puo richiedere alcuni minuti)</button>
+  <button (click)="cambiaFoglio(foglio)" style="font-family:verdana">visualizza foglio</button>
+  <br>
+  <button (click)="visualALL( )" style="font-family:verdana">visualizza tutte le zone(puo richiedere alcuni minuti)</button>
 
 </form>

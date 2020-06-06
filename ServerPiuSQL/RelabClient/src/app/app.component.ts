@@ -60,7 +60,7 @@ export class AppComponent implements OnInit {
     this.obsGeoData = this.http.get<GeoFeatureCollection>(`${this.serverUrl}/selectALL`);
     this.obsGeoData.subscribe(this.prepareData);
     return false
-    //test
+    //riceve i dati tutte le zone
   }
 
 
